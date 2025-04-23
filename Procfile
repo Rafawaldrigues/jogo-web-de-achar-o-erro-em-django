@@ -1,0 +1,1 @@
+web: gunicorn encontrar_objeto.wsgi:application
