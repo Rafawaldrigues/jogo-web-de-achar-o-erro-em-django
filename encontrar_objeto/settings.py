@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "yhm=b3!)!+$v(jd!+4n%bo+q(+nf3ve^%cr&0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['jogo-web-de-achar-o-erro-em-django.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 
 
