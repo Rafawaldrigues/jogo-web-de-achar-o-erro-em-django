@@ -24,15 +24,6 @@ import os
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "yhm=b3!)!+$v(jd!+4n%bo+q(+nf3ve^%cr&050v=d_2)9txwx")
 
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
-
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -138,5 +129,9 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Diretório onde os arquivos de mídia serão 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-DEBUG = True  # Mantenha como True durante o desenvolvimento
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']  # Adicione isso
+DEBUG = True
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'jogo-web-de-achar-o-erro-em-django.onrender.com',  # <-- Adicionado!
+]
