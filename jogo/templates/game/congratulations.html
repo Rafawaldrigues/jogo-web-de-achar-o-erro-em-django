@@ -1,0 +1,72 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="card border-success shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h1 class="display-4 mb-0">
+                        <i class="bi bi-trophy-fill me-3"></i>Parabéns!
+                    </h1>
+                </div>
+                
+                <div class="card-body py-5">
+                    <div class="confetti"></div>
+                    
+                    <h2 class="text-success mb-4">Você completou todas as fases!</h2>
+                    
+                    <div class="animate__animated animate__tada mb-4">
+                        <i class="bi bi-stars display-1 text-warning"></i>
+                    </div>
+                    
+                    <p class="lead mb-4">🎉 Sua habilidade de observação é incrível!</p>
+                    
+                    <div class="d-grid gap-2 col-md-6 mx-auto">
+                        <a href="{% url 'phase' 1 %}" class="btn btn-lg btn-primary">
+                            <i class="bi bi-arrow-repeat me-2"></i>Jogar Novamente
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.confetti {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="50" cy="50" r="8" fill="%23ffd700"/><circle cx="150" cy="30" r="6" fill="%23ff69b4"/><rect x="80" y="100" width="10" height="10" fill="%2300ff00"/></svg>') repeat;
+    opacity: 0.3;
+    animation: confettiFall 5s linear infinite;
+}
+
+@keyframes confettiFall {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+.card {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.display-4 {
+    font-size: 3.5rem;
+    font-weight: 300;
+}
+
+.btn-lg {
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+}
+</style>
+
+{% endblock %}

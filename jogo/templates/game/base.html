@@ -1,0 +1,76 @@
+<style>
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+    }
+    
+    .game-image {
+        transition: transform 0.3s ease;
+        border: 3px solid #fff;
+    }
+    
+    .game-image:hover {
+        transform: scale(1.02);
+    }
+    
+    .btn-primary {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        background: linear-gradient(45deg, #0d6efd, #0b5ed7);
+        border: none;
+    }
+    
+    .card {
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    
+    .list-group-item {
+        font-size: 1.25rem;
+        padding: 1.5rem;
+        color: #333;
+    }
+</style>
+
+
+<!-- templates/game/base.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encontre o Objeto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-size: 1.25rem;
+            background-color: #f0f8ff;
+        }
+        .game-image {
+            cursor: pointer;
+            border: 5px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .btn-success {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+        }
+        .instructions {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <main class="container mt-5">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
