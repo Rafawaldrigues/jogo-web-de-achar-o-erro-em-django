@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-%27vj@5d^^^i^*eu44g%t1(#=7b+wqlivn@4rtc2e-e%pz8^!=
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['jogo-web-de-achar-o-erro-em-django.onrender.com']
+
 
 
 
@@ -136,4 +137,4 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Diretório onde os arquivos de mídia serão 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEBUG = True  # Mantenha como True durante o desenvolvimento
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']  # Adicione isso
+
