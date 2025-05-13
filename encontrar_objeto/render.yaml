@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: encontrar-objeto
+    env: python
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn encontrar_objeto.wsgi:application"
+    staticPublishPath: staticfiles
