@@ -1,0 +1,246 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <!-- Cabeçalho da Fase -->
+            <div class="phase-header mb-4 text-center">
+                <h2 class="text-primary mb-2">Fase {{ phase.number }}</h2>
+                <p class="lead phase-instruction text-center">
+                    {% if phase.number == 1 %} Ache a cor diferente
+                    {% elif phase.number == 2 %} Ache o sapo
+                    {% elif phase.number == 3 %} Ache a letra "C"
+                    {% elif phase.number == 4 %} Ache o carro
+                    {% elif phase.number == 5 %} Ache o batom
+                    {% elif phase.number == 6 %} Ache o lápis
+                    {% elif phase.number == 7 %} Ache a bola de piscina
+                    {% elif phase.number == 8 %} Ache o sino
+                    {% elif phase.number == 9 %} Ache o rosto diferente
+                    {% elif phase.number == 10 %} Ache a estrela
+                    {% elif phase.number == 11 %} Ache o triângulo
+                    {% elif phase.number == 12 %} Ache o círculo
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Imagem principal e referência lado a lado -->
+            <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
+                <!-- Imagem do Jogo -->
+                <div class="game-image-container position-relative shadow-lg rounded-3">
+                    <img 
+                        src="{{ phase.image.url }}" 
+                        alt="Objeto escondido na fase {{ phase.number }}" 
+                        class="img-fluid cursor-zoom" 
+                        id="gameImage"
+                        style="max-width: 100%; height: auto; max-height: 85vh; border-radius: 10px;">
+                </div>
+
+                <!-- Objeto de referência -->
+                <div class="reference-object text-center">
+                    {% if phase.number == 1 %}
+                    <img src="{% static 'imagens/diferente.png' %}" alt="Objeto referência" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 2 %}
+                    <img src="{% static 'imagens/sapo.png' %}" alt="Sapo" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 3 %}
+                    <img src="{% static 'imagens/letra_c.png' %}" alt="Letra C" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 4 %}
+                    <img src="{% static 'imagens/carro.png' %}" alt="Carro" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 5 %}
+                    <img src="{% static 'imagens/batom.png' %}" alt="Batom" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 6 %}
+                    <img src="{% static 'imagens/lapis.png' %}" alt="Lápis" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 7 %}
+                    <img src="{% static 'imagens/bola_piscina.png' %}" alt="Bola de piscina" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 8 %}
+                    <img src="{% static 'imagens/sino.png' %}" alt="Sino" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 9 %}
+                    <img src="{% static 'imagens/rosto_diferente.png' %}" alt="Rosto diferente" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 10 %}
+                    <img src="{% static 'imagens/estrela.png' %}" alt="Estrela" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 11 %}
+                    <img src="{% static 'imagens/triangulo.png' %}" alt="Triângulo" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% elif phase.number == 12 %}
+                    <img src="{% static 'imagens/circulo.png' %}" alt="Círculo" class="rounded border border-dark bg-white p-1" style="max-width: 150px;">
+                    {% endif %}
+                    <p class="mt-2 fw-bold text-secondary">Modelo de referência</p>
+                </div>
+            </div>
+
+            <!-- Modal de Sucesso -->
+            <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title"><i class="bi bi-check-circle-fill me-2"></i>Parabéns!</h5>
+                        </div>
+                        <div class="modal-body text-center py-4">
+                            <p class="lead mb-4">🎉 Objeto encontrado com sucesso!</p>
+                            <button type="button" class="btn btn-primary btn-lg" id="nextPhaseBtn">
+                                {% if phase.number < 12 %}
+                                Próxima Fase <i class="bi bi-arrow-right-circle ms-2"></i>
+                                {% else %}
+                                Finalizar Jogo <i class="bi bi-trophy ms-2"></i>
+                                {% endif %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sons -->
+    <audio id="successSound"><source src="{% static 'sounds/success.mp3' %}" type="audio/mpeg"></audio>
+    <audio id="errorSound"><source src="{% static 'sounds/error.mp3' %}" type="audio/mpeg"></audio>
+
+    <!-- Painel de Debug -->
+    <div class="position-fixed bottom-0 end-0 m-3 p-3 bg-dark text-white rounded-3 shadow-lg debug-panel">
+        <div class="d-flex gap-3 align-items-center">
+            <button class="btn btn-sm btn-outline-light" id="toggleDebug"><i class="bi bi-bug-fill"></i></button>
+            <div id="coordinatesDisplay">X: <span class="text-primary">0</span> | Y: <span class="text-primary">0</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const gameImage = document.getElementById('gameImage');
+    const debugPanel = document.querySelector('.debug-panel');
+    const coordX = document.querySelector('#coordinatesDisplay span:nth-child(1)');
+    const coordY = document.querySelector('#coordinatesDisplay span:nth-child(2)');
+    let debugMode = false;
+    let isProcessing = false;
+
+    // Ativar/desativar debug
+    document.getElementById('toggleDebug').addEventListener('click', () => {
+        debugMode = !debugMode;
+        debugPanel.style.opacity = debugMode ? '1' : '0.5';
+        gameImage.style.cursor = debugMode ? 'crosshair' : 'pointer';
+    });
+
+    // Atualizar coordenadas no modo debug
+    gameImage.addEventListener('mousemove', (e) => {
+        if (!debugMode) return;
+        
+        const rect = gameImage.getBoundingClientRect();
+        const scaleX = gameImage.naturalWidth / rect.width;
+        const scaleY = gameImage.naturalHeight / rect.height;
+        
+        coordX.textContent = Math.round((e.clientX - rect.left) * scaleX);
+        coordY.textContent = Math.round((e.clientY - rect.top) * scaleY);
+    });
+
+    // Lógica principal do clique
+    gameImage.addEventListener('click', async (e) => {
+        if (isProcessing) return;
+        isProcessing = true;
+
+        const rect = gameImage.getBoundingClientRect();
+        const scaleX = gameImage.naturalWidth / rect.width;
+        const scaleY = gameImage.naturalHeight / rect.height;
+
+        const clickData = {
+            phase_number: {{ phase.number }},
+            click_x: Math.round((e.clientX - rect.left) * scaleX),
+            click_y: Math.round((e.clientY - rect.top) * scaleY)
+        };
+
+        try {
+            const response = await fetch("{% url 'check_answer' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify(clickData)
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('successSound').play();
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    new bootstrap.Modal(document.getElementById('successModal')).show();
+                }
+            } else {
+                document.getElementById('errorSound').play();
+                gameImage.classList.add('click-error');
+                setTimeout(() => gameImage.classList.remove('click-error'), 500);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao processar sua jogada!');
+        } finally {
+            isProcessing = false;
+        }
+    });
+
+    // Botão da modal
+    document.getElementById('nextPhaseBtn')?.addEventListener('click', () => {
+        {% if phase.number < 12 %}
+        window.location.href = "{% url 'phase' phase.number|add:1 %}";
+        {% else %}
+        window.location.href = "{% url 'game_complete' %}";
+        {% endif %}
+    });
+});
+</script>
+
+<style>
+.phase-header {
+    border-bottom: 3px solid #0d6efd;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.phase-instruction {
+    font-size: 1.5rem;
+    color: #495057;
+    font-weight: 500;
+}
+
+#gameImage {
+    object-fit: scale-down;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 85vh;
+    min-width: 300px;
+    min-height: 300px;
+    transition: transform 0.3s ease;
+    border-radius: 15px;
+}
+
+#gameImage:hover {
+    transform: scale(1.02);
+}
+
+.click-error {
+    animation: shake 0.5s;
+    border: 3px solid #dc3545 !important;
+}
+
+.debug-panel {
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    z-index: 1000;
+}
+
+.debug-panel:hover {
+    opacity: 1 !important;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(10px); }
+    50% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+</style>
+{% endblock %}

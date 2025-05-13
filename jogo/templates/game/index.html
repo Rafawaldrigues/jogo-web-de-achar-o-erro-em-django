@@ -1,0 +1,52 @@
+{% extends 'game/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <!-- Cabeçalho -->
+            <div class="mb-5">
+                <h1 class="display-4 text-primary mb-3">🕵️ Encontre o Objeto!</h1>
+                <p class="lead text-muted">Um jogo de observação para todas as idades</p>
+            </div>
+
+            <!-- Cartão de Instruções -->
+            <div class="card border-primary shadow-lg mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h4 mb-0">Como Jogar</h2>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <span class="badge bg-primary me-3">1</span>
+                            Observe atentamente cada cena
+                        </div>
+                        <div class="list-group-item">
+                            <span class="badge bg-primary me-3">2</span>
+                            Encontre o elemento diferente
+                        </div>
+                        <div class="list-group-item">
+                            <span class="badge bg-primary me-3">3</span>
+                            Clique sobre ele para avançar
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão Grande -->
+            <a href="{% url 'phase' 1 %}" class="btn btn-primary btn-lg px-5 py-3 shadow">
+                <i class="bi bi-play-circle me-2"></i>
+                Começar Jogo!
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<div class="instructions">
+    <h2>Instructions:</h2>
+    <p>1. Carefully observe each image</p>
+    <p>2. Find the different object</p>
+    <p>3. Click on it to advance</p>
+    <a href="{% url 'phase' 1 %}" class="btn">Start Game!</a>
+</div>
